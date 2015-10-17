@@ -5,71 +5,78 @@
 #include <time.h>
 #include <random>
 
+#define Pi 3.14159265359
+
 using namespace std;
 
-double function(double r1, double theta1, double phi1, double r2, double theta2, double phi2)
+double function(double r1, double r2, double theta1, double theta2, double phi1, double phi2)
 {
-    return exp(-4*(r1+r2))* 1/sqrt(r1*r1+r2*r2-2*r1*r2*(cos(theta1)*cos(theta2)+sin(theta1)*sin(theta2)*cos(phi1-phi2)));
+    return 1.0/256.0*log(1-4.0*r1)*log(1-4.0*r1)*log(1-4.0*r2)*log(1-4.0*r2)*sin(theta1)*sin(theta2)*1/sqrt(log(1-4.0*r1)*log(1-4.0*r1)+log(1-4.0*r2)*log(1-4.0*r2)-2.0*log(1-4.0*r1)*log(1-4.0*r2)*(cos(theta1)*cos(theta2)+sin(theta1)*sin(theta2)*cos(phi1-phi2)));
 }
 
 int main()
 {
+    double variance, summand = 0, value, standarddeviation;
     double integralsum = 0;
-    double a = 5;
-    int n = 30;
+    int n = 10000000;
     double **x = new double *[6];
     for(int i = 0; i < 6; i++)
     {
         x[i] = new double [n];
     }
     srand(time(NULL));
-    default_random_engine generator;
-    uniform_real_distribution<double> distribution(-a,a);
-    srand(time(NULL));
+    default_random_engine generator(rand());
+    uniform_real_distribution<double> distribution1(0,2*Pi), distribution2(0,Pi), distribution3(0,0.25);
 
-    for(int i = 0; i < 6; i++)
+    //random numbers get generated
+    for(int i = 0; i < 2; i++)
     {
         for(int j = 0; j < n; j++)
         {
-            x[i][j] = distribution(generator);
+            x[i][j] = distribution3(generator);
+        }
+    }
+    for(int i = 2; i < 4; i++)
+    {
+        for(int j = 0; j < n; j++)
+        {
+            x[i][j] = distribution2(generator);
+        }
+    }
+    for(int i = 4; i < 6; i++)
+    {
+        for(int j = 0; j < n; j++)
+        {
+            x[i][j] = distribution1(generator);
         }
     }
 
-    /* for(int i = 0; i < n; i++)  //Test
+     /*for(int i = 0; i < n; i++)  //Test
     {
         cout << x[0][i] << endl;
-    }
-    */
+        //cout << x[2][i] << endl;
+    }*/
 
 
 
-    for(int f = 0; f < n; f++)
+    //expectation value gets calculated
+    for(int i = 0; i < n; i++)
     {
-        for(int g = 0; g < n; g++)
-        {
-            for(int h = 0; h < n; h++)
-            {
-                for(int i = 0; i < n; i++)
-                {
-                    for(int j = 0; j < n; j++)
-                    {
-                        for(int k = 0; k < n; k++)
-                        {
-                            if(f != i && g != j && h != k)  //We do not want to divide by 0
-                            {
-                                integralsum += function(x[0][f], x[1][g], x[2][h], x[3][i], x[4][j], x[5][k]);
 
-                            }
-                        }
-                    }
-                }
-            }
+        if(x[0][i] != x[1][i] || x[2][i] != x[3][i] || x[4][i] != x[5][i])  //We do not want to divide by 0
+        {
+            value = function(x[0][i], x[1][i], x[2][i], x[3][i], x[4][i], x[5][i]);
+            integralsum += value;
+            //summand += value*value;   // <- wrong approach
         }
     }
 
-    integralsum /= n*n*n*n*n*n;
 
-    cout << "The calculated value for the integral is: " << integralsum << endl;
+    integralsum /= n;
+ /* variance = summand - integralsum*integralsum;
+    standarddeviation = sqrt(variance)/sqrt((double)n);*/   //in work
+
+    cout << "The calculated value for the integral is: " << integralsum /* << " +/- " << standarddeviation  */ << endl;
 
     for(int i = 0;i < 6; i++)
     {

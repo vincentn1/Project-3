@@ -18,7 +18,7 @@ double function(double x1, double y1, double z1, double x2, double y2, double z2
 
 int main()
 {
-    int n = 35;                         //Number of gridpoints
+    int n = 40;                         //Number of gridpoints
     double *x = new double [n];
     double *w = new double [n];
     double a, b;                        //Integrationborders
@@ -42,7 +42,7 @@ int main()
                     {
                         for(int k = 0; k < n; k++)
                         {
-                            if(f != i && g != j && h != k)  //We do not want to divide by 0
+                            if(f != i || g != j || h != k)  //We do not want to divide by 0
                             {
                                 integralsum += w[f]*w[g]*w[h]*w[i]*w[j]*w[k]*function(x[f], x[g], x[h], x[i], x[j], x[k]);
                             }
