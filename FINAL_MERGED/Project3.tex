@@ -100,9 +100,9 @@ The integral gets calculated in the same way, we did it before the importance sa
 
 \subsection{Gaussian quadrature}
 
-\subsection{Montecarlo integration}
+\subsection{Monte-Carlo integration}
 
-We calculated the same integral with montecarlo method. First, we calculated the integral in a brute force way. This means that we calculate the integral using (pseudo) random numbers, which obey uniform distribution functions. The random numbers for each of the six dimensional integral are uniform distributed in a chosen interval (-a to a ). Furthermore, we don't transform the integral, but we calculate it in Cartesian coordinates. We got the values in table \ref{Data from the brute force montecarlo algorithm (part c))}. (We used the interval for a=2 ) In one dimension, the montecarlo method can be described by formula \ref{integralbrute}. 
+We calculated the same integral with Monte-Carlo method. First, we calculated the integral in a brute force way. This means that we calculate the integral using (pseudo) random numbers, which obey uniform distribution functions. The random numbers for each of the six dimensional integral are uniform distributed in a chosen interval (-a to a ). Furthermore, we don't transform the integral, but we calculate it in Cartesian coordinates. We got the values in table \ref{Data from the brute force montecarlo algorithm (part c))}. (We used the interval for a=2 ) In one dimension, the Monte-Carlo method can be described by formula \ref{integralbrute}. 
 
 \begin{align}
 I &= \int_{a}^{b} f(x) dx \approx < f(x) > \cdot (b-a) = \frac{1}{n} \sum_{i=1}^{n} f(x_i) \cdot (b-a) = \hat{I} \label{integralbrute}
@@ -132,37 +132,39 @@ f( r_{1,i}, r_{2,i}, \theta_{1,i}, \theta_{2,i}, \phi_{1,i}, \phi_{2,i}) = \frac
 
 \begin{table}[h]
 \centering
-\caption{Data from the brute force montecarlo algorithm (part c))}
+\caption{Data from the brute force Monte-Carlo algorithm (part c))}
 \label{Data from the brute force montecarlo algorithm (part c))}
 \begin{tabular}{c|c|c|c}
-n & Integral & standart deviation & time in s \\
+n & Integral & Standard deviation & Time in s \\
 \hline\hline
-100 & 0.0563094 & 0.0362644 & 0 \\
-1000 & 0.226437 & 0.159513 & 0.001 \\
-10000 & 0.0986332 & 0.0263534 & 0.006 \\
-100000 & 0.155652 & 0.01757 & 0.062 \\
-1000000 & 0.178452 & 0.00754909 & 0.667 \\
-10000000 & 0.188683 & 0.00290854 & 6.645 \\
-100000000 & 0.19169 & 0.000942637 & 70.881 
+$10^2$ & 0.0563094 & 0.0362644 & 0 \\
+$10^3$ & 0.226437 & 0.159513 & 0.001 \\
+$10^4$ & 0.0986332 & 0.0263534 & 0.006 \\
+$10^5$ & 0.155652 & 0.01757 & 0.062 \\
+$10^6$ & 0.178452 & 0.00754909 & 0.667 \\
+$10^7$ & 0.188683 & 0.00290854 & 6.645 \\
+$10^8$ & 0.19169 & 0.000942637 & 70.881 
 \end{tabular}
 \end{table}
 
 \begin{table}[h]
 \centering
-\caption{Data from the montecarlo algorithm with distribution function (in spherical coordinates) (part d))}
+\caption{Data from the Monte-Carlo algorithm with distribution function (in spherical coordinates) (part d))}
 \label{Data from the  montecarlo algorithm (part d))}
 \begin{tabular}{c|c|c|c}
-n & Integral & standart deviation & time in s \\
+n & Integral & Standard deviation & Time in s \\
 \hline\hline
-100 & 0.216734 & 0.0769193 & 0 \\
-1000 & 0.173694 & 0.0241284 & 0.002 \\
-10000 & 0.186069 & 0.00885492 & 0.021 \\
-100000 & 0.19571 & 0.00343622 & 0.21 \\
-1000000 & 0.193259 & 0.00101078 & 2.07 
+$10^2$ & 0.216734 & 0.0769193 & 0 \\
+$10^3$ & 0.173694 & 0.0241284 & 0.002 \\
+$10^4$ & 0.186069 & 0.00885492 & 0.021 \\
+$10^5$ & 0.19571 & 0.00343622 & 0.21 \\
+$10^6$ & 0.193259 & 0.00101078 & 2.07 
 \end{tabular}
 \end{table}
 
 \section{Comparison and discussion of the results}
+
+
 
 \section{Source-code}
 
