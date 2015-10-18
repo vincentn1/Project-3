@@ -58,12 +58,12 @@ int main(){
 		r1=(-1.0/4)*log(1-ran0(&k));
 		r2=(-1.0/4)*log(1-ran0(&k));
 		fofx=r1*r1*r2*r2*sin(theta1)*sin(theta2)/(sqrt(r1*r1+r2*r2-2*r1*r2*(cos(theta1)*cos(theta2)+sin(theta1)*sin(theta2)*cos(phi1-phi2))));
-		sum1+=fofx;
+		sum1+=fofx/n;
 		sum2+=fofx*fofx;
 	}
 	finish = clock();
 	
-	sum1=sum1/n*(pow(M_PI,4)/4); // Normalization and Volume
+	sum1=sum1*(pow(M_PI,4)/4); // Normalization and Volume
 	sum2=sum2*(pow(M_PI,4)/4)*(pow(M_PI,4)/4); // Volume 
 	Variation= sum2/n-sum1*sum1;
 
