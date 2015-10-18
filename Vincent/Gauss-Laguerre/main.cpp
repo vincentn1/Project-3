@@ -13,7 +13,7 @@ void gauss_laguerre(double *, double *, int, double);
 double gammln(double);
 double function(double r1, double r2, double theta1, double theta2, double phi1, double phi2)
 {
-    return  1/sqrt(r1*r1+r2*r2-2*r1*r2*(cos(theta1)*cos(theta2)+sin(theta1)*sin(theta2)*cos(phi1-phi2)));
+    return  (exp(-3*(r1+r2))*sin(theta1)*sin(theta2))/sqrt(r1*r1+r2*r2-r1*r2*(cos(theta1)*cos(theta2)+sin(theta1)*sin(theta2)*cos(phi1-phi2)));
 }
 
 int main()
@@ -26,7 +26,7 @@ int main()
     double *wphi = new double [n];
     double *wtheta = new double [n];
     double integralsum = 0;
-    double alpha = 4;
+    double alpha = 2;
 
     gauleg(0, 2*Pi, xphi, wphi, n);
     gauleg(0, Pi, xtheta, wtheta, n);
@@ -36,6 +36,7 @@ int main()
     cout << "calculating...";
     for(int f = 0; f < n; f++)
     {
+        cout << double(f)/double(n) << " %" << endl;
         for(int g = 0; g < n; g++)
         {
             for(int h = 0; h < n; h++)

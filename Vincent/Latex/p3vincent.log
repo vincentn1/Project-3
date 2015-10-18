@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2015.9.1)  18 OCT 2015 11:58
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2015.9.1)  18 OCT 2015 16:35
 entering extended mode
 **p3vincent.tex
 (p3vincent.tex
@@ -1017,26 +1017,26 @@ LaTeX Font Info:    Font shape `T1/futs/bx/n' in size <7.6> not available
 LaTeX Font Info:    Font shape `T1/futs/bx/n' in size <6> not available
 (Font)              Font shape `T1/futs/b/n' tried instead on input line 38.
 LaTeX Font Info:    Font shape `T1/futs/bx/n' in size <12> not available
-(Font)              Font shape `T1/futs/b/n' tried instead on input line 52.
+(Font)              Font shape `T1/futs/b/n' tried instead on input line 54.
  [3]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 98.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 102.
  [4]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 98.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 102.
  (p3vincent.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 98.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 98.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 102.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 102.
 Package rerunfilecheck Info: File `p3vincent.out' has not changed.
 (rerunfilecheck)             Checksum: 7CEBDBEA4169A8E207C732C4A383E645;252.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 98.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 102.
  ) 
 Here is how much of TeX's memory you used:
- 9228 strings out of 493698
- 128916 string characters out of 3144407
- 227411 words of memory out of 3000000
+ 9226 strings out of 493698
+ 128891 string characters out of 3144407
+ 228411 words of memory out of 3000000
  12360 multiletter control sequences out of 15000+200000
  90574 words of font info for 103 fonts, out of 3000000 for 9000
  1025 hyphenation exceptions out of 8191
- 29i,9n,32p,686b,337s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 29i,15n,32p,686b,337s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/fontname/8r.enc}<C:/Program File
 s/MiKTeX 2.9/fonts/type1/public/fourier/fourier-bb.pfb><C:/Program Files/MiKTeX
  2.9/fonts/type1/public/fourier/fourier-mex.pfb><C:/Program Files/MiKTeX 2.9/fo
@@ -1044,9 +1044,9 @@ nts/type1/public/fourier/fourier-mlit.pfb><C:/Program Files/MiKTeX 2.9/fonts/ty
 pe1/public/fourier/fourier-ms.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/adob
 e/utopia/putb8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/adobe/utopia/putr8
 a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/adobe/utopia/putri8a.pfb>
-Output written on p3vincent.pdf (4 pages, 74556 bytes).
+Output written on p3vincent.pdf (4 pages, 74077 bytes).
 PDF statistics:
- 88 PDF objects out of 1000 (max. 8388607)
- 20 named destinations out of 1000 (max. 500000)
+ 85 PDF objects out of 1000 (max. 8388607)
+ 18 named destinations out of 1000 (max. 500000)
  33 words of extra memory for PDF output out of 10000 (max. 10000000)
 

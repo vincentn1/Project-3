@@ -51,14 +51,6 @@ int main()
         }
     }
 
-     /*for(int i = 0; i < n; i++)  //Test
-    {
-        cout << x[0][i] << endl;
-        //cout << x[2][i] << endl;
-    }*/
-
-
-
     //expectation value gets calculated
     for(int i = 0; i < n; i++)
     {
@@ -67,16 +59,15 @@ int main()
         {
             value = function(x[0][i], x[1][i], x[2][i], x[3][i], x[4][i], x[5][i]);
             integralsum += value;
-            //summand += value*value;   // <- wrong approach
+            summand += value*value;   // <- wrong approach
         }
     }
 
+    integralsum *= (pow(2*Pi, 2)*pow(Pi, 2)*pow(0.5, 2))/double(n);
+    variance = summand - integralsum*integralsum;
+    standarddeviation = sqrt(variance)/sqrt((double)n);   //in work
 
-    integralsum /= n;
- /* variance = summand - integralsum*integralsum;
-    standarddeviation = sqrt(variance)/sqrt((double)n);*/   //in work
-
-    cout << "The calculated value for the integral is: " << integralsum /* << " +/- " << standarddeviation  */ << endl;
+    cout << "The calculated value for the integral is: " << integralsum  << " +/- " << standarddeviation << endl;
 
     for(int i = 0;i < 6; i++)
     {

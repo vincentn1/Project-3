@@ -41,7 +41,9 @@ I = \int\limits_{\mathbb{R}^6} d\mathbf{r_1} d\mathbf{r_2} e^{-4 (r_1+r_2)} \fra
 Or in spherical coordinates:
 
 \begin{align}
+	\begin{split}
     I = \int_0^\infty \int_0^\infty  \int_0^{2 \pi} \int_0^{2 \pi}  \int_0^\pi \int_0^\pi dr_1 dr_2 d\theta_1 d\theta_2 d\phi_1 d\phi_2    r_1^2 r_2^2 sin(\theta_1) sin(\theta_2)\\ \cdot \frac{e^{-4(r_1+r_2)}} {\sqrt{r_1^2+r_2^2-r_1r_2(cos(\theta_1)cos(\theta_2)+sin(\theta_1)sin(\theta_2)cos(\phi_1-\phi_2)}}
+   	\end{split}
 \end{align}
 
 The analytical solution of this integral is $I = \frac{5 \pi^2}{16^2}$.
@@ -59,20 +61,20 @@ I = \sum_{f,g,h,i,j,k = 1}^{n}\omega_f \cdot \omega_g \cdot \omega_h \cdot \omeg
 
 Where $f$ is the function we want to integrate, $x_i$ is a point where the Legendre polynomial of degree n is zero and $\omega_i$ can be seen a the weight of this point.
 
-Gauss-Laguerre quadrature is especially good to numerically solve integrals of the form $\int_{0}^{\infty} e^{-\alpha x} f(x) dx$. As seen in (2), we have such an integral if we use Spherical coordinates. Hence we will integrate $r_1$ and $r_2$ in Spherical coordinates with Gauss-Laguerre, while we integrate $\theta_1$, $\theta_2$, $\phi_1$ and $\phi_2$ with Gauss-Legendre quadrature. The formula will have the same form as (4).
+Gauss-Laguerre quadrature is especially good to numerically solve integrals of the form $\int_{0}^{\infty} e^{-\alpha x} f(x) dx$. As seen in (2), we have such an integral if we use Spherical coordinates. Hence we will integrate $r_1$ and $r_2$ in Spherical coordinates with Gauss-Laguerre, while we integrate $\theta_1$, $\theta_2$, $\phi_1$ and $\phi_2$ with Gauss-Legendre quadrature. The formula will have the same form as (3).
 
 \subsection{Monte-Carlo-Method} 
 
 In the Monte-Carlo integration we make use of the fact, that you can write an integral of a function as the expectation value of this function with the uniform distribution.
 
 \begin{equation}
-I = \int_{a}^{b} f(x) dx = <f> \approx \frac{1}{n} \sum_{i=1}^{n} f(x_i)
+I = \int_{a}^{b} f(x) dx = <f> \approx \frac{(b-a)}{n} \sum_{i=1}^{n} f(x_i)
 \end{equation}
 
 Hence in our case we can write our integral as:
 
 \begin{equation}
-	I = \frac{1}{n} \sum_{i = 1}^n f(x_{1,i}, x_{2,i}, y_{1,i}, y_{2,i}, z_{1,i}, z_{2,i})
+	I = \frac{(2a)^6}{n} \sum_{i = 1}^n f(x_{1,i}, x_{2,i}, y_{1,i}, y_{2,i}, z_{1,i}, z_{2,i})
 \end{equation}
 
 Where the $x_i$'s, $y_i$'s and $z_i$'s are random generated numbers in the interval $[-a;a]$ ($a \in \mathbb{R}$) with an uniform distribution. If we choose "a" big enough this is a good approximation to the integration limits(which are infinite), because the value of our function decreases quickly. 
@@ -84,7 +86,9 @@ If we use importance sampling in the Monte Carlo method in Spherical coordinates
 
 As a consequence our integral will transform to 
 \begin{align}
+\begin{split}
 	    I = \int_0^\frac{1}{4} \int_0^\frac{1}{4}  \int_0^{2 \pi} \int_0^{2 \pi}  \int_0^\pi \int_0^\pi dr_1 dr_2 d\theta_1 d\theta_2 d\phi_1 d\phi_2    ln(1-4 r_1)^2 ln(1-4 r_2)^2 sin(\theta_1) sin(\theta_2)\\ \cdot \frac{1} {\sqrt{ln(1-4 r_1)^2+ln(1-4 r_2)^2-ln(1-4 r_1)ln(1-4 r_2)(cos(\theta_1)cos(\theta_2)+sin(\theta_1)sin(\theta_2)cos(\phi_1-\phi_2)}}
+\end{split}
 \end{align}
 
 The integral gets calculated in the same way, we did it before the importance sampling.

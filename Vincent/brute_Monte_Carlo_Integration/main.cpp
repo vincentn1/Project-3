@@ -17,7 +17,6 @@ int main()
     double integralsum = 0;
     double a = 5;
     int n = 10000000;
-    int m = 1;
     double **x = new double *[6];
     for(int i = 0; i < 6; i++)
     {
@@ -35,16 +34,7 @@ int main()
         }
     }
 
-
-    /* for(int i = 0; i < n; i++)  //Test
-    {
-        cout << x[0][i] << endl;
-    }
-    */
-
-
-
-
+//Algorithm gets executed
     for(int i = 0; i < n; i++)
     {
 
@@ -53,17 +43,9 @@ int main()
             integralsum += function(x[0][i], x[1][i], x[2][i], x[3][i], x[4][i], x[5][i]);
         }
     }
+    integralsum *= pow(2*a,6)/n;
 
-
-    //integralsum /= n*n*n*n*n*n;
-
-    while(n != 10)
-    {
-        m++;
-        n /= 10;
-    }
-
-    cout << "The calculated value for the integral is: " << integralsum  << "* 10^-" << m << endl;
+    cout << "The calculated value for the integral is: " << integralsum << endl;
 
     for(int i = 0;i < 6; i++)
     {
