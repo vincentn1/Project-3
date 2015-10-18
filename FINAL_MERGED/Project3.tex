@@ -1,0 +1,170 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{makeidx}
+\usepackage{graphicx}
+\usepackage{fourier}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{hyperref}
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+\author{Johannes Scheller, Vincent Noculak, Lukas Powalla}
+\title{Computational Physics - Project 3}
+
+\lstset{language=C++,
+	keywordstyle=\bfseries\color{blue},
+	commentstyle=\itshape\color{red},
+	stringstyle=\color{green},
+	identifierstyle=\bfseries,
+	frame=single}
+\begin{document}
+
+\maketitle
+\newpage
+\tableofcontents
+\newpage
+
+\begin{abstract}
+		
+	In this project, we look at different numerical integration methods applied on the problem of the correlation energy of two electrons in a helium atom. First we will study the Gauss-Legendre and Gauss-Laguerre quadrature and compare them to each other. Later we will evaluate the integral using a Monte Carlo calculation, which we will improve by using importance sampling. The usefulness of the different methods will be discussed.
+	
+\end{abstract}
+	
+\section{Introduction to Project 3}
+
+We are looking at the six-dimensional integral, which is used to determine the ground state correlation energy between to electrons in a helium atom. This integral is given by: 
+\begin{equation}
+	I = \int\limits_{\mathbb{R}^6} d\mathbf{r_1} d\mathbf{r_2} e^{-4 (r_1+r_2)} \frac{1}{|\mathbf{r_1} - \mathbf{r_2}|} 
+\end{equation}
+
+Or in spherical coordinates:
+
+\begin{align}
+	\begin{split}
+		I = \int_0^\infty \int_0^\infty  \int_0^{2 \pi} \int_0^{2 \pi}  \int_0^\pi \int_0^\pi dr_1 dr_2 d\theta_1 d\theta_2 d\phi_1 d\phi_2    r_1^2 r_2^2 sin(\theta_1) sin(\theta_2)\\ \cdot \frac{e^{-4(r_1+r_2)}} {\sqrt{r_1^2+r_2^2-r_1r_2(cos(\theta_1)cos(\theta_2)+sin(\theta_1)sin(\theta_2)cos(\phi_1-\phi_2))}}
+	\end{split}
+\end{align}
+
+The analytical solution of this integral is $I = \frac{5 \pi^2}{16^2}$.
+
+To solve this integral numerical. We will first apply the Gauss-Legendre quadrature for every variable in Cartesian coordinates. After that we use the Gauss-Laguerre quadrature in Spherical coordinates. Next we will study the solution for the Monte Carlo method. Where we first apply a brute force algorithm in Cartesian coordinates and then improve the algorithm with importance sampling, by eliminating the exponential term of the integral.
+
+\section{Theory}
+\subsection{Gauss-Legendre and Gauss-Laguerre quadrature}
+
+In Gaussian quadrature we use the characteristics of orthogonal polynomials to numerically integrate a function. The Legendre polynomials which are of such kind are defined in the interval $[-1;1]$. Using mapping we can use the Gauss-Legendre quadrature for an integral with any integration limits $a, b \in \mathbb{R}$. In our case we can make the approximation $\int_{\infty}^{\infty} f(\mathbf{r_1},\mathbf{r_2}) \approx \int_{-a}^{a} f(\mathbf{r_1},\mathbf{r_2})$ in case "a" is high enough, because the value of our function decreases very quickly due to the exponential function. The value of the numerically calculated integral in six dimensions is given by:
+
+\begin{align}
+	I = \sum_{f,g,h,i,j,k = 1}^{n}\omega_f \cdot \omega_g \cdot \omega_h \cdot \omega_i \cdot \omega_j \cdot \omega_k \cdot f(x_{1,f} , x_{2,g} , y_{1,h} , y_{2,i} , z_{1,j} , z_{2,k})  
+\end{align}
+
+Where $f$ is the function we want to integrate, $x_i$ is a point where the Legendre polynomial of degree n is zero and $\omega_i$ can be seen a the weight of this point.
+
+Gauss-Laguerre quadrature is especially good to numerically solve integrals of the form $\int_{0}^{\infty} e^{-\alpha x} f(x) dx$. As seen in (2), we have such an integral if we use Spherical coordinates. Hence we will integrate $r_1$ and $r_2$ in Spherical coordinates with Gauss-Laguerre, while we integrate $\theta_1$, $\theta_2$, $\phi_1$ and $\phi_2$ with Gauss-Legendre quadrature. The formula will have the same form as (3).
+
+\subsection{Monte-Carlo-Method} 
+
+In the Monte-Carlo integration we make use of the fact, that you can write an integral of a function as the expectation value of this function with the uniform distribution.
+
+\begin{equation}
+	I = \int_{a}^{b} f(x) dx = <f> \approx \frac{(b-a)}{n} \sum_{i=1}^{n} f(x_i)
+\end{equation}
+
+Hence in our case we can write our integral as:
+
+\begin{equation}
+	I = \frac{(2a)^6}{n} \sum_{i = 1}^n f(x_{1,i}, x_{2,i}, y_{1,i}, y_{2,i}, z_{1,i}, z_{2,i})
+\end{equation}
+
+Where the $x_i$'s, $y_i$'s and $z_i$'s are random generated numbers in the interval $[-a;a]$ ($a \in \mathbb{R}$) with an uniform distribution. If we choose "a" big enough this is a good approximation to the integration limits(which are infinite), because the value of our function decreases quickly. 
+If we use importance sampling in the Monte Carlo method in Spherical coordinates, we can eliminate the exponential term in our function and also do not need to integrate with the infinity as a limit any more. We make an importance sampling with the functions
+
+\begin{align}
+	\rho(r_1) = e^{-4 r_1} \\\rho(r_2) = e^{-4 r_2}
+\end{align}
+
+As a consequence our integral will transform to 
+\begin{align}
+	\begin{split}
+		I = \int_0^\frac{1}{4} \int_0^\frac{1}{4}  \int_0^{2 \pi} \int_0^{2 \pi}  \int_0^\pi \int_0^\pi dr_1 dr_2 d\theta_1 d\theta_2 d\phi_1 d\phi_2    ln(1-4 r_1)^2 ln(1-4 r_2)^2 sin(\theta_1) sin(\theta_2)\\ \cdot \frac{1} {\sqrt{ln(1-4 r_1)^2+ln(1-4 r_2)^2-ln(1-4 r_1)ln(1-4 r_2)(cos(\theta_1)cos(\theta_2)+sin(\theta_1)sin(\theta_2)cos(\phi_1-\phi_2)}}
+	\end{split}
+\end{align}
+
+The integral gets calculated in the same way, we did it before the importance sampling.
+
+\section{Execution}
+
+\subsection{Gaussian quadrature}
+
+\subsection{Montecarlo integration}
+
+We calculated the same integral with montecarlo method. First, we calculated the integral in a brute force way. This means that we calculate the integral using (pseudo) random numbers, which obey uniform distribution functions. The random numbers for each of the six dimensional integral are uniform distributed in a chosen interval (-a to a ). Furthermore, we don't transform the integral, but we calculate it in Cartesian coordinates. We got the values in table \ref{Data from the brute force montecarlo algorithm (part c))}. (We used the interval for a=2 ) In one dimension, the montecarlo method can be described by formula \ref{integralbrute}. 
+
+\begin{align}
+I &= \int_{a}^{b} f(x) dx \approx < f(x) > \cdot (b-a) = \frac{1}{n} \sum_{i=1}^{n} f(x_i) \cdot (b-a) = \hat{I} \label{integralbrute}
+\end{align}
+ 
+In addition to that, we tried to improve our calculations. First, we transformed the integral into spherical coordinates. In spherical coordinates, we use the variables $\theta$ ( from 0 to $\pi$), $\phi$ (from 0 to 2$\pi$) and r (from 0 to infinity) instead of using Cartesian coordinates $x_{i,k} \ [-\infty$ t $\infty$ ) (i=1,2,3; k=1,2). We also used a distribution function in order to get appropriate values of the random numbers.  Formula \ref{P(x)} to \ref{with distribution} describe the general one dimensional reformulation if you want to use a other particle distribution function. 
+
+
+\begin{align}
+&P(x) = \int_{0}^{x} p(x) dx \label{P(x)}\\
+& I =  \int_{a}^{b} \frac{f(x)}{p(x)} \cdot p(x) dx = \cdot \int_{a}^{b} \hat{f}(x) \cdot p(x) dx \approx  \frac{1}{n} \sum_{i=1}^{n} \hat{f}(y_i) \cdot (b-a) = \hat{I} \\
+&y_i(x_i) =P^{-1}\left(p(y(x_i))\right)= P^{-1}(x_i)\label{with distribution}
+\end{align}
+In order to improve the precision of the integral, we used a not uniform distribution function, which can be found in formula \ref{inourcase}ff. 
+\begin{align}
+P(x)&= \int_{0}^{x} 4 \cdot e^{-4 x} = 1- e^{-4x} \label{inourcase}\\
+y_i(x_i)&= -\frac{1}{4} ln(1-x_i)
+\end{align}
+We transformate the integral to spherical Coordinates and use the distribution function for $r_1$ and $r_2$. Finally, the integral can be calculated through formula \ref{integralinourcase}. The results are in table \ref{Data from the  montecarlo algorithm (part d))}.
+\begin{align}
+f( r_{1,i}, r_{2,i}, \theta_{1,i}, \theta_{2,i}, \phi_{1,i}, \phi_{2,i}) = \frac{r_{1,i}^2 \cdot r_{2,i}^2 \cdot sin(\theta_{1,i}) sin(\theta_{2,i}) }{\sqrt{r_{1,i}^2+r_{2,i}^2-2 \cdot r_{1,i} r_{2,i}  cos(\theta_{1,i}) cos(\theta_{2,i}) + sin(\theta_{1,i}) sin(\theta_{2,i}) \cdot cos(\phi_{1,i}-\phi_{2,i})}\cdot 4^2}
+\end{align}
+
+\begin{align}
+\hat{I}= \frac{1}{n} \sum_{i=1}^{n} f( r_{1,i}, r_{2,i}, \theta_{1,i}, \theta_{2,i}, \phi_{1,i}, \phi_{2,i}) \cdot (2 \pi - 0)^2 \cdot (\pi -0)^2  \label{integralinourcase}
+\end{align}
+
+\begin{table}[h]
+\centering
+\caption{Data from the brute force montecarlo algorithm (part c))}
+\label{Data from the brute force montecarlo algorithm (part c))}
+\begin{tabular}{c|c|c|c}
+n & Integral & standart deviation & time in s \\
+\hline\hline
+100 & 0.0563094 & 0.0362644 & 0 \\
+1000 & 0.226437 & 0.159513 & 0.001 \\
+10000 & 0.0986332 & 0.0263534 & 0.006 \\
+100000 & 0.155652 & 0.01757 & 0.062 \\
+1000000 & 0.178452 & 0.00754909 & 0.667 \\
+10000000 & 0.188683 & 0.00290854 & 6.645 \\
+100000000 & 0.19169 & 0.000942637 & 70.881 
+\end{tabular}
+\end{table}
+
+\begin{table}[h]
+\centering
+\caption{Data from the montecarlo algorithm with distribution function (in spherical coordinates) (part d))}
+\label{Data from the  montecarlo algorithm (part d))}
+\begin{tabular}{c|c|c|c}
+n & Integral & standart deviation & time in s \\
+\hline\hline
+100 & 0.216734 & 0.0769193 & 0 \\
+1000 & 0.173694 & 0.0241284 & 0.002 \\
+10000 & 0.186069 & 0.00885492 & 0.021 \\
+100000 & 0.19571 & 0.00343622 & 0.21 \\
+1000000 & 0.193259 & 0.00101078 & 2.07 
+\end{tabular}
+\end{table}
+
+\section{Comparison and discussion of the results}
+
+\section{Source-code}
+
+
+\end{document}
