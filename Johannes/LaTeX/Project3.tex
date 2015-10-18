@@ -28,7 +28,7 @@
 \section{Execution}
 
 \subsection{Gaussian quadrature}
-Our first task was to calculate the integral in Cartesian coordinates by Gaussian quadrature using only Legendre polynomials. With this method, it is only possible to integrate a function on some finite interval $[a,b]$. Therefore, we had to replace the original integration limits $-\inf$ and $\inf$ by some appropriate values $-a$ and $a$. As it can be seen in fig. \ref{oneparticle}, the one-dimensional wave function of only one particle gets more or less zero at $r=5$. Therefore, we decided to chose $[-5,5]$ as the interval for our first trials.
+Our first task was to calculate the integral in Cartesian coordinates by Gaussian quadrature using only Legendre polynomials. With this method, it is only possible to integrate a function on some finite interval $[a,b]$. Therefore, we had to replace the original integration limits $-\inf$ and $\inf$ by some appropriate values $-a$ and $a$. As it can be seen in fig. \ref{oneparticle}, the one-dimensional wave function of only one particle gets more or less zero at $r=2$. Therefore, we decided to chose $[-2,2]$ as the interval for our first trials.
 %Graphic HERE!
 
 Our program reads in the desired number of grid points, $n$, and the desired integration limits $a$ and $b$. After that, it starts an algorithm to calculate the weights $w_i$ and zeros $x_i$ of a Legendre polynomial of the desired degree $n$ and to save them in arrays. This algorithm is taken from the source-code \glqq exampleprogram.cpp\grqq from the project folder for this course on Github. After calculating the weights and zeros, the algorithm performs a sextuple loop over the arrays and to sum up the weighted values of the function at those points and returns the result:
@@ -65,12 +65,53 @@ can now be written as
 \begin{equation}
 \int_{-\pi}^{\pi}\left(\int_{-\pi}^{\pi}\left(\int_{0}^{\pi}\left(\int_{0}^{\pi}\left(\int_{0}^{\infty}\left(\int_{0}^{\infty}\left(r_1^2r_2^2\sin(\theta_1)\sin(\theta_2)\mathrm{e}^{-4(r_1+r_2)}\frac{1}{|\mathbf{r_1}-\mathbf{r_2}}\right)dr_1\right)dr_2\right)d\theta_1\right)d\theta_2\right)d\phi_1\right)d\phi_2
 \end{equation}
-which perfectly fits to the form of Laguerre polynomials if we substitute $r_i'=4r_i$. Note that we have to change the Jacobian accordingly! Nowe we can solve the integral by applying Gauss-Laguerre quadrature for the two integrals over $r_i'$ and by using Gauss-Legendre for the integrals over the angles.
+which perfectly fits to the form of Laguerre polynomials if we substitute $r_i'=4r_i$. Note that we have to change the Jacobian accordingly! Now we can solve the integral by applying Gauss-Laguerre quadrature for the two integrals over $r_i'$ and by using Gauss-Legendre for the integrals over the angles.
 
-Our algorithm again sets up the weights and zeros for both methods in arrays by using algorithms from the course folder on Github.
+This program takes the same number of grid points as for Gauss-Legendre. Our algorithm again sets up the weights and zeros for both methods in arrays by using algorithms from the course folder on Github. Then it calculates the weighted function values in a sextuple for-loop, sums them up and returns the integral:
+\begin{lstlisting}
+double laguerre_legendre(int n){
+double * xlag = new double[n+1];
+double * wlag = new double[n+1];
+double * xphi = new double[n];
+double * wphi = new double[n];
+double * xtheta = new double[n];
+double * wtheta = new double[n];
+double a, b;
+a=0;
+b=2*M_PI;
+gauleg(a, b, xphi, wphi, n);
+a=0;
+b=M_PI;
+gauleg(a, b, xtheta, wtheta, n);
+//alpha=2 because of r^2 in Jacobian!
+gauss_laguerre(xlag, wlag, n, 2.);
+double integral=0;
+for (int i=1; i<= n; i++){
+for (int j=1; j<= n; j++){
+for (int k=0; k<n; k++){
+for (int l=0; l<n; l++){
+for (int y=0; y<n; y++){
+for (int z=0; z<n; z++){
+	//integral+=(laguerre weights)*(legendre weights*function value)*(Jacobian)
+	//NOTE: Substituted r_1 and r_2 by r_1'=4*r_1 and r_2'=4*r_2!
+	//Same in "function_spherical"! Changes Jacobian!
+	integral+=((wlag[i]*wlag[j])*(wphi[k]*wphi[l]*wtheta[y]*wtheta[z]
+	*function_spherical(xlag[i], xlag[j], xphi[k], xphi[l], xtheta[y], xtheta[z]))
+	*(sin(xtheta[y])*sin(xtheta[z])))/4096;
+}}}}}}
+delete wphi;
+delete wtheta;
+delete wlag;
+delete xphi;
+delete xtheta;
+delete xlag;
+return integral;
+}
+\end{lstlisting}
+Note that in this case the function \emph{function\_spherical} only contains the parts of the function that are not absorbed in the Laguerre weights! Also look at the new Jacobian and the factors we had to add as we made the substitution $r_i'=4r_i$.
+
+In table \ref{results_lag}, you can see the results of the Gauss-Laguerre quadrature. They converge much faster than the results we obtained with 'brute force' Gauss-Legendre and lead to a higher precision. Note that they still need a long computation time!
 \section{Comparison and discussion of the results}
 
 \section{Source-code}
-
-
 \end{document}
