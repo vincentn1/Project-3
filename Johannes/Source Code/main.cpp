@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
+#include <omp.h>
 #define EPS 3.0e-14
 #define MAXIT 10
 #define   ZERO       1.0E-10
@@ -26,6 +27,8 @@ void gauss_laguerre(double *, double *, int, double);
  */
 int main()
 {
+    int num_threads = omp_get_num_procs();
+    omp_set_num_threads(num_threads);
     //Initialize borders a & b (double) and number of grid points n (int) by user
     int n;
     double a, b;
@@ -43,9 +46,9 @@ int main()
     cout << "Legendre: " << gaulegint << endl << "time: " << double ( (finish - start)/(double)CLOCKS_PER_SEC ) << endl;
     //Now, mixture of Laguerre (r-part) and Legendre (angles): calculate integral and print
     start = clock();
-    //double gaulagint=laguerre_legendre(n);
+    double gaulagint=laguerre_legendre(n);
     finish = clock();
-    //cout << "Laguerre-Legendre: " << gaulagint << endl << "time: " << double ( (finish - start)/(double)CLOCKS_PER_SEC ) << endl;
+    cout << "Laguerre-Legendre: " << gaulagint << endl << "time: " << double ( (finish - start)/(double)CLOCKS_PER_SEC ) << endl;
     return 0;
 }
 /*
@@ -60,12 +63,14 @@ double legendre(int n, double a, double b){
     double * w = new double [n];
     gauleg(a, b, x, w, n);
     double integral = 0;
-    for (int i=0; i<n; i++){
-        for (int j=0; j< n; j++){
-            for (int k=0; k<n; k++){
-                for (int l=0; l<n; l++){
-                    for (int y=0; y<n; y++){
-                        for (int z=0; z<n; z++){
+    int i, j, k, l, y, z;
+# pragma omp parallel for reduction(+:integral)  private (i, j, k, l, y, z)
+    for (i=1; i<= n; i++){
+        for (j=1; j<= n; j++){
+            for (k=0; k<n; k++){
+                for (l=0; l<n; l++){
+                    for (y=0; y<n; y++){
+                        for (z=0; z<n; z++){
                             integral += (w[i] * w[j] * w[k] * w[l] * w[y]* w[z] * function_cartesian(x[i], x[j], x[k], x[l], x[y], x[z]));
                         }
                     }
@@ -96,12 +101,14 @@ double laguerre_legendre(int n){
     //alpha=2 because of r^2 in Jacobian!
     gauss_laguerre(xlag, wlag, n, 2.);
     double integral=0;
-    for (int i=1; i<= n; i++){
-        for (int j=1; j<= n; j++){
-            for (int k=0; k<n; k++){
-                for (int l=0; l<n; l++){
-                    for (int y=0; y<n; y++){
-                        for (int z=0; z<n; z++){
+    int i, j, k, l, y, z;
+# pragma omp parallel for reduction(+:integral)  private (i, j, k, l, y, z)
+    for (i=1; i<= n; i++){
+        for (j=1; j<= n; j++){
+            for (k=0; k<n; k++){
+                for (l=0; l<n; l++){
+                    for (y=0; y<n; y++){
+                        for (z=0; z<n; z++){
                             //integral+=(laguerre weights)*(legendre weights*function value)*(Jacobian)
                             //NOTE: Substituted r_1 and r_2 by r_1'=4*r_1 and r_2'=4*r_2! Same in "function_spherical"! Changes Jacobian!
                             integral+=((wlag[i]*wlag[j])*(wphi[k]*wphi[l]*wtheta[y]*wtheta[z]*function_spherical(xlag[i], xlag[j], xphi[k], xphi[l], xtheta[y], xtheta[z]))*(sin(xtheta[y])*sin(xtheta[z])))/4096;
