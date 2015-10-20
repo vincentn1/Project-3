@@ -270,27 +270,82 @@ $10^7$ & 0.1926 & 0.0003 &  19.49
 
 \subsection{Improving our code with parallelization and vectorisation}
 
-In order to use the full computational capability of our machines, we decided to vectorise and parallelize our code. Computations without parallelization use usually only one of the compilers of our computer. However, most of the modern computers have more than one compiler. Therefore, it makes sense to split up the "work" for one compiler and spread it on all from the computer available compilers. This is called parallelization. To be able to use parallelization, you have to include a library, a compiler flag and you have to add a few commands to your source code. (An example can be seen in source code
-Vectorisation 
+In order to use the full computational capability of our machines, we decided to vectorise and parallelize our code. Computations without parallelization use usually only one of the processors of our computer. However, most of the modern computers have more than one processor. Therefore, it makes sense to split up the "work" for one processor and spread it on all from the computer available processors. This is called parallelization. To be able to use parallelization, you have to include a library, a compiler flag and you have to add a few commands to your source code. (An example can be seen in source code below figure \ref{code for parallel} )
+
+
+\begin{figure}[h]
+\caption{code for parallelization}
+\label{code for parallel}
+\begin{lstlisting}
+/* Extract of source code for part c) to explain the application of parallelization.
+We also included compiler flags and a library; 
+see the source code on Github for further information. 
+(link can be found in the end of this report) */
+#include <omp.h>
+...
+int main(){
+    int num_threads = omp_get_num_procs(); /*get the number of processors */
+    omp_set_num_threads(num_threads); /*set the number of processors */
+...
+# pragma omp parallel for reduction(+:sum1) reduction(+:sum2) 
+  private (i, x1, x2, y1, y2, z1, z2, fofx) /*this belongs to the line above. 
+  definition of private variables. 
+  This variables are not generally available
+  The sums (sum1,sum2) are "shared" variables */
+    for(i=0;i<n;i++){
+        x1=ran0(&k)*factor-0.5*factor;
+        x2=ran0(&k)*factor-0.5*factor;
+        y1=ran0(&k)*factor-0.5*factor;
+        y2=ran0(&k)*factor-0.5*factor;
+        z1=ran0(&k)*factor-0.5*factor;
+        z2=ran0(&k)*factor-0.5*factor;
+        fofx=exp(-4*(sqrt(x1*x1+y1*y1+z1*z1)+sqrt(x2*x2+y2*y2+z2*z2)));
+        fofx=fofx/sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2)+(z1-z2)*(z1-z2));
+        sum1+=fofx;
+        sum2+=fofx*fofx;
+    }
+...
+}
+\end{lstlisting}
+\end{figure}
+
+With parallelization we could speed up our program. For the brute force Monte Carlo integration, we got the results in table \ref{Data from the brute force montecarlo algorithm (part c)) with vec and para}. With parallelization the program is about 3.8 times faster (for instance for n=$10^8$: without parallel 70.881 seconds - with parallel 18.79 s )
+In part d, the optimization (parallel., vector.) leads to a decrease of Compilation time up to a factor of 13.5 ! The results of part d with parallelization can be found in table \ref{Data from the  montecarlo algorithm with vectorization and parallelization (part d))}. As a conclusion, we can say that optimizations of the code in terms of using parallelization (and vectorisation; however the contribute of vectorisation wasn't that big in our case) can save a lot of compilation time and is quite easy to use. For big computations, a factor of up to 13.5 can save days. (This could also mean to save much money in case you run your program on a super computer!)
 
 \begin{table}[h]
 \centering
-\caption{Data from the Monte-Carlo algorithm with distribution function (in spherical coordinates) (part d))}
+\caption{Data from the brute force Monte-Carlo algorithm with parallelization and vectorization (part c))}
+\label{Data from the brute force montecarlo algorithm (part c)) with vec and para}
+\begin{tabular}{c|c|c|c}
+n & Integral & Standard deviation & Time in s \\
+\hline\hline
+$10^3$ & 0.14 & 0.08 & 0 \\
+$10^4$ & 0.22 & 0.05 & 0.004 \\
+$10^5$ & 0.18 & 0.01 & 0.02 \\
+$10^6$ & 0.187 & 0.009 & 0.181 \\
+$10^7$ & 0.196 & 0.003 & 1.859 \\
+$10^8$ & 0.192 & 0.001 & 18.79
+\end{tabular}
+\end{table}
+
+\begin{table}[h]
+\centering
+\caption{Data from the Monte-Carlo algorithm with distribution function, parallization and vectorization used (integral in spherical coordinates) (part d))}
 \label{Data from the  montecarlo algorithm with vectorization and parallelization (part d))}
 \begin{tabular}{c|c|c|c}
 n & Integral & Standard deviation & Time in s \\
 \hline\hline
-$10^2$ & 0.22 & 0.08 & 0 \\
-$10^3$ & 0.17 & 0.02 & 0.002 \\
-$10^4$ & 0.186 & 0.009 & 0.021 \\
-$10^5$ & 0.196 & 0.003 & 0.21 \\
-$10^6$ & 0.193 & 0.001 & 2.07 \\
-$10^7$ & 0.1926 & 0.0003 &  19.49 \\
-$10^8$ & 0.193 & 0.001 & 2.07 \\
-$10^9$ & 0.193 & 0.001 & 2.07 \\
-$10^10$ & 0.193 & 0.001 & 2.07 
+$10^2$ & 0.20 & 0.06 & 0\\
+$10^3$ & 0.19 & 0.03 & 0\\
+$10^4$ & 0.189 & 0.010 & 0 \\
+$10^5$ & 0.198 & 0.004 & 0.016 \\
+$10^6$ & 0.192 & 0.001 & 0.153 \\
+$10^7$ & 0.1919 & 0.0003 & 1.488 \\
+$10^8$ & 0.1917 & 0.0001 & 14.935 
 \end{tabular}
 \end{table}
+
+\newpage
 
 \section{Comparison and discussion of the results}
 

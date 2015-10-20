@@ -7,5 +7,5 @@
 \contentsline {subsection}{\numberline {3.1}Gaussian quadrature}{4}{subsection.3.1}
 \contentsline {subsection}{\numberline {3.2}Monte-Carlo integration}{6}{subsection.3.2}
 \contentsline {subsection}{\numberline {3.3}Improving our code with parallelization and vectorisation}{7}{subsection.3.3}
-\contentsline {section}{\numberline {4}Comparison and discussion of the results}{8}{section.4}
-\contentsline {section}{\numberline {5}Source code}{8}{section.5}
+\contentsline {section}{\numberline {4}Comparison and discussion of the results}{9}{section.4}
+\contentsline {section}{\numberline {5}Source code}{9}{section.5}

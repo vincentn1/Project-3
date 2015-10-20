@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 3.5.0, 2015-10-20T16:09:52. -->
+<!-- Written by QtCreator 3.5.0, 2015-10-20T16:43:50. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
-  <value type="QByteArray">{63070b83-e096-4021-ab95-53c9b118cedb}</value>
+  <value type="QByteArray">{d4b55fc0-d03b-49fc-83e7-f4bf5116e807}</value>
  </data>
  <data>
   <variable>ProjectExplorer.Project.ActiveTarget</variable>
@@ -227,8 +227,8 @@
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Lukas_Part_d_parallel</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:C:/Users/Johannes/GitHub/Project-3/Lukas/program/QT_Parallel/Lukas_Part_d_parallel/Lukas_Part_d_parallel.pro</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Lukas_Part_d_parallel2</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:C:/Users/Lukas/Documents/GitHub/Project-3/Lukas/program/QT_Parallel/Lukas_Part_d_parallel/Lukas_Part_d_parallel.pro</value>
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.CommandLineArguments"></value>
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.ProFile">Lukas_Part_d_parallel.pro</value>
     <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseDyldImageSuffix">false</value>
