@@ -268,6 +268,30 @@ $10^7$ & 0.1926 & 0.0003 &  19.49
 \end{tabular}
 \end{table}
 
+\subsection{Improving our code with parallelization and vectorisation}
+
+In order to use the full computational capability of our machines, we decided to vectorise and parallelize our code. Computations without parallelization use usually only one of the compilers of our computer. However, most of the modern computers have more than one compiler. Therefore, it makes sense to split up the "work" for one compiler and spread it on all from the computer available compilers. This is called parallelization. To be able to use parallelization, you have to include a library, a compiler flag and you have to add a few commands to your source code. (An example can be seen in source code
+Vectorisation 
+
+\begin{table}[h]
+\centering
+\caption{Data from the Monte-Carlo algorithm with distribution function (in spherical coordinates) (part d))}
+\label{Data from the  montecarlo algorithm with vectorization and parallelization (part d))}
+\begin{tabular}{c|c|c|c}
+n & Integral & Standard deviation & Time in s \\
+\hline\hline
+$10^2$ & 0.22 & 0.08 & 0 \\
+$10^3$ & 0.17 & 0.02 & 0.002 \\
+$10^4$ & 0.186 & 0.009 & 0.021 \\
+$10^5$ & 0.196 & 0.003 & 0.21 \\
+$10^6$ & 0.193 & 0.001 & 2.07 \\
+$10^7$ & 0.1926 & 0.0003 &  19.49 \\
+$10^8$ & 0.193 & 0.001 & 2.07 \\
+$10^9$ & 0.193 & 0.001 & 2.07 \\
+$10^10$ & 0.193 & 0.001 & 2.07 
+\end{tabular}
+\end{table}
+
 \section{Comparison and discussion of the results}
 
 All in all it can be said that Gauss-Legendre quadrature is not suitable at all for integrals of the type we dealt with, having infinite integration limits. The results we observed converge very slowly, respectively no convergence could be observed at all. However the Gauss-Laguerre quadrature fitted much better for the limits of our integral in spherical coordinates. Using this method we observed fast converging results. One drawback of all Gaussian quadrature methods is that the computation time increases by $n^d$, with d being the dimensions we integrate in total and n being the number of integration points. As a consequence Gaussian quadrature is the method of choice only in low dimensional integration problems.
