@@ -43,9 +43,9 @@ int main()
     cout << "Legendre: " << gaulegint << endl << "time: " << double ( (finish - start)/(double)CLOCKS_PER_SEC ) << endl;
     //Now, mixture of Laguerre (r-part) and Legendre (angles): calculate integral and print
     start = clock();
-    //double gaulagint=laguerre_legendre(n);
+    double gaulagint=laguerre_legendre(n);
     finish = clock();
-    //cout << "Laguerre-Legendre: " << gaulagint << endl << "time: " << double ( (finish - start)/(double)CLOCKS_PER_SEC ) << endl;
+    cout << "Laguerre-Legendre: " << gaulagint << endl << "time: " << double ( (finish - start)/(double)CLOCKS_PER_SEC ) << endl;
     return 0;
 }
 /*
