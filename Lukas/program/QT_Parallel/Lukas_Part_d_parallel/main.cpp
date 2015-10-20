@@ -45,7 +45,7 @@ int main(){
     double theta2 ;
     double phi1 ;
     double phi2 ;
-    double sum1=0,sum2=0,fofx;
+    long double sum1=0,sum2=0,fofx;
     double Variation;
 
     clock_t start, finish;  //  declare start and final time
@@ -59,13 +59,14 @@ int main(){
         phi2=ran0(&k)*3.14157*2;
         r1=(-1.0/4)*log(1-ran0(&k));
         r2=(-1.0/4)*log(1-ran0(&k));
+        if(!isinf(r1) && !isinf(r2)){
         fofx=r1*r1*r2*r2*sin(theta1)*sin(theta2)/(sqrt(r1*r1+r2*r2-2*r1*r2*(cos(theta1)*cos(theta2)+sin(theta1)*sin(theta2)*cos(phi1-phi2))));
-        sum1+=fofx/n;
-        sum2+=fofx*fofx;
+        sum1+=fofx;
+        sum2+=fofx*fofx;}
     }
     finish = clock();
 
-    sum1=sum1*(pow(M_PI,4)/4); // Normalization and Volume
+    sum1=sum1*(pow(M_PI,4)/4)/n; // Normalization and Volume
     sum2=sum2*(pow(M_PI,4)/4)*(pow(M_PI,4)/4); // Volume
     Variation= sum2/n-sum1*sum1;
 
