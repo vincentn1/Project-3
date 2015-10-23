@@ -27,7 +27,27 @@
 \newpage
 \section{Introduction to Project 3}
 
-\subsection{analytical derivation of the integral }
+	
+\section{Introduction to Project 3}
+
+We are looking at the six-dimensional integral, which is used to determine the ground state correlation energy between to electrons in a helium atom. This integral is given by: 
+\begin{equation}
+	I = \int\limits_{\mathbb{R}^6} d\mathbf{r_1} d\mathbf{r_2} e^{-4 (r_1+r_2)} \frac{1}{|\mathbf{r_1} - \mathbf{r_2}|} 
+\end{equation}
+
+Or in spherical coordinates:
+
+\begin{align}
+	\begin{split}
+		I = \int_0^\infty \int_0^\infty  \int_0^{2 \pi} \int_0^{2 \pi}  \int_0^\pi \int_0^\pi dr_1 dr_2 d\theta_1 d\theta_2 d\phi_1 d\phi_2    r_1^2 r_2^2 sin(\theta_1) sin(\theta_2)\\ \cdot \frac{e^{-4(r_1+r_2)}} {\sqrt{r_1^2+r_2^2-r_1r_2(cos(\theta_1)cos(\theta_2)+sin(\theta_1)sin(\theta_2)cos(\phi_1-\phi_2))}}
+	\end{split}
+\end{align}
+
+The analytical solution of this integral is $I = \frac{5 \pi^2}{16^2}$.
+
+To solve this integral numerical. We will first apply the Gauss-Legendre quadrature for every variable in Cartesian coordinates. After that we use the Gauss-Laguerre quadrature in Spherical coordinates. Next we will study the solution for the Monte Carlo method. Where we first apply a brute force algorithm in Cartesian coordinates and then improve the algorithm with importance sampling, by eliminating the exponential term of the integral.
+
+\subsection{Analytical derivation of the integral }
 
 We want to calculate the analytical solution to the integral:
 \begin{align*}
@@ -35,30 +55,30 @@ I = \int d\vec{r}_1 \int d\vec{r}_2 \frac{1}{|\vec{r_1}-\vec{r_2}|} \cdot e^{-4(
 \end{align*}
 Therefore, we first transform to spherical Coordinates for each variable. In addition to that, we choose while calculating the integral over $r_2$ the axis of $r_1$ as z-axis. With simple scalar product ( $\vec{r}_1 \cdot \vec{r}_2= r_1 \cdot r_2 \cdot cos( \theta)$) we get the following expression: (don't forget about Jacobi-determinant)
 \begin{align}
-I&=\int_{0}^{2 \pi} d\phi_1 \int_{0}^{ \pi} sin(\theta_1) d\theta_1 \int_{0}^{\infty}  r_1^2 \cdot e^{-4 \cdot r_1} dr_1\cdot \int_{0}^{2 \pi} d\phi_2 \int_{0}^{ \pi} sin(\theta_2) d\theta_2 \int_{0}^{\infty}  r_2^2 dr_2 \frac{1}{\sqrt{r_1^2+r_2^2-2 \cdot r_1 \cdot r_2}} \cdot e^{-4 \cdot r_2}\\
-&= 4 \pi^2 \cdot \int_{0}^{ \pi} sin(\theta_1) d\theta_1 \int_{0}^{\infty}  r_1^2 \cdot e^{-4 \cdot r_1} dr_1 \cdot \quad \int_{0}^{\infty} dr_2 \int_{0}^{\pi} d\theta_2 \cdot \frac{r_2^2 \cdot sin(\theta_2)}{\sqrt{r_1^2+r_2^2-2 \cdot r_1 r_2 cos(\theta_2)}}\\
+I&=\int_{0}^{2 \pi} d\phi_1 \int_{0}^{ \pi} sin(\theta_1) d\theta_1 \int_{0}^{\infty}  r_1^2 \cdot e^{-4 \cdot r_1} dr_1\cdot \int_{0}^{2 \pi} d\phi_2 \int_{0}^{ \pi} sin(\theta_2) d\theta_2 \int_{0}^{\infty}  r_2^2 dr_2 \frac{1}{\sqrt{r_1^2+r_2^2-2 \cdot r_1 \cdot r_2\cdot cos(\theta_2)}} \cdot e^{-4 \cdot r_2}\\
+&= 4 \pi^2 \cdot \int_{0}^{ \pi} sin(\theta_1) d\theta_1 \int_{0}^{\infty}  r_1^2 \cdot e^{-4 \cdot r_1} dr_1 \cdot \quad \int_{0}^{\infty} dr_2 \int_{0}^{\pi} d\theta_2 \cdot \frac{r_2^2 \cdot sin(\theta_2)}{\sqrt{r_1^2+r_2^2-2 \cdot r_1 r_2 cos(\theta_2)}}\cdot e^{-4 \cdot r_2}\\
 &= 4 \pi^2 \cdot \int_{0}^{ \pi} sin(\theta_1) d\theta_1 \int_{0}^{\infty}  r_1^2 \cdot e^{-4 \cdot r_1} dr_1 \cdot \quad I(\vec{r}_1)_2
 \end{align}
 We now calculate the integral $I(\vec{r}_1)_2$:
 \begin{align}
-I(\vec{r}_1)_2&= \int_{0}^{\infty} dr_2 \int_{0}^{\pi} d\theta_2 \cdot \frac{r_2^2 \cdot sin(\theta_2)}{\sqrt{r_1^2+r_2^2-2 \cdot r_1 r_2 cos(\theta_2)}}\\
-&= \int_{0}^{\infty} dr_2 \cdot r_2^2 \left[ \frac{1}{r_1 r_2} \sqrt{r_1^2+r_2^2 - 2 r_1 r_2 cos(\theta_2)} \right]_0^{\pi}\\
+I(\vec{r}_1)_2&= \int_{0}^{\infty} dr_2 \int_{0}^{\pi} d\theta_2 \cdot \frac{r_2^2 \cdot sin(\theta_2)\cdot e^{-4 \cdot r_2}}{\sqrt{r_1^2+r_2^2-2 \cdot r_1 r_2 cos(\theta_2)}}\\
+&= \int_{0}^{\infty} dr_2 \cdot r_2^2\cdot e^{-4 \cdot r_2} \cdot \left[ \frac{1}{r_1 r_2} \sqrt{r_1^2+r_2^2 - 2 r_1 r_2 cos(\theta_2)} \right]_0^{\pi}\\
 &= \int_{0}^{\infty} dr_2 \cdot r_2^2 \left( \sqrt{r_1^2+r_2^2+2 \cdot r_1 \cdot r_2} -\sqrt{r_1^2+r_2^2-2 \cdot r_1 \cdot r_2}\right) \cdot e^{-4r_2}\\ 
-&= \int_{0}^{\infty} dr_2 \frac{r_2}{r_1} \left( r_1+r_2 - |r_1-r_2| \right)
+&= \int_{0}^{\infty} dr_2 \frac{r_2}{r_1} \left( r_1+r_2 - |r_1-r_2| \right) \cdot e^{-4 \cdot r_2}
 \end{align}
 Now, we split up the integral in two parts:
 \begin{align}
 I(\vec{r}_1)_2&=\int_{0}^{r_1} dr_2 2 \cdot \frac{r_2^2}{r_1} e^{-4 r_2} + 2 \cdot\int_{r_1}^{\infty} dr_2 e^{-4r_2}\\
 &= \frac{2}{r_1} \cdot \hat{I}_1 +  \hat{I}_2
 \end{align}
-Through partial integration, we can determine the following integral:
+Through partial integration, we can calculate the following integral:
 \begin{align}
 \hat{I}_1&=\int_{0}^{r_1} dr_2 \cdot r_2^2 e^{-4 r_2}\\
 &= -\frac{1}{4} r_1^2 e^{-4r_2}|_0^{r_1} +\int_0^{r_1} \frac{1}{2} r_2 e^{-4 r_2}dr_2\\
 &=-\frac{1}{4}r_1^2 e^{-4 r_1}-\frac{1}{8}r_2 e^{-4r_2} |_0^{r_1} + \int_0^{r_1} \frac{1}{8} e^{-4 r_2} dr_2\\
 &=-\frac{1}{4}r_1^2 e^{-4 r_1}-\frac{1}{8}r_1 e^{-4r_1} + \frac{1}{32}-\frac{1}{32} \cdot e^{-4 r_1}\\
 \end{align}
-similarly, we determine the second integral:
+Similarly, we determine the second integral:
 \begin{align}
 \hat{I}_2 &= 2 \cdot\int_{r_1}^{\infty} dr_2 e^{-4r_2}\\
 &= -\frac{1}{2} r_2 e^{-4 r_2} |_{r_1}^{\infty} + \int_{r_1}^{\infty} \frac{1}{2} e^{-4 r_2} dr_2 \\
@@ -66,7 +86,7 @@ similarly, we determine the second integral:
 \end{align}
 In total, we can now determine the integral $I_2$:
 \begin{align}
-I_2 &= - \frac{2}{r_1}\left(\frac{1}{4}r_1^2 e^{-4 r_1}-\frac{1}{8}r_1 e^{-4r_1} + \frac{1}{32}-\frac{1}{32} \cdot e^{-4 r_1}\right) + \frac{1}{2} r_1 e^{-4 r_1} + \frac{1}{8} e^{-4 r_1} \\
+I_2 &=  \frac{2}{r_1}\left(-\frac{1}{4}r_1^2 e^{-4 r_1}-\frac{1}{8}r_1 e^{-4r_1} + \frac{1}{32}-\frac{1}{32} \cdot e^{-4 r_1}\right) + \frac{1}{2} r_1 e^{-4 r_1} + \frac{1}{8} e^{-4 r_1} \\
 &= -\frac{1}{16}\,{\frac { \left( 2\,{{\rm e}^{-
 4\,r_1}}r_1+{{\rm e}^{-4\,r_1}}-1 \right) }{r_1}}
 \end{align}
@@ -76,8 +96,6 @@ I&= 4 \pi^2 \cdot \int_{0}^{ \pi} sin(\theta_1) d\theta_1 \int_{0}^{\infty}  r_1
 4\,r_1}}r_1+{{\rm e}^{-4\,r_1}}-1 \right) }{r_1}} \right)\\
 &= 8 \pi^2 \cdot \int_{0}^{\infty}  r_1^2 \cdot e^{-4 \cdot r_1} dr_1 \left( -\frac{1}{16}\,{\frac { \left( 2\,{{\rm e}^{-
 4\,r_1}}r_1+{{\rm e}^{-4\,r_1}}-1 \right) }{r_1}}\right)\\
-&= 8 \pi^2 \cdot \int_{0}^{\infty}  r_1^2 \cdot e^{-4 \cdot r_1} dr_1 \left( -\frac{1}{16}\,{\frac { \left( 2\,{{\rm e}^{-
-4\,r_1}}r_1+{{\rm e}^{-4\,r_1}}-1 \right) }{r_1}} \right)\\
 &=-\frac{1}{2}\pi^2 \cdot \int_0^{\infty} e^{-4 \cdot r_1} dr_1 \left( 2 e^{-4r_1} \cdot r_1^2 + e^{-4r_1} \cdot r_1 - r_1 \right)\\
 &=-\frac{1}{2}\pi^2 \cdot \int_0^{\infty}  dr_1 \left( 2 e^{-8r_1} \cdot r_1^2 + e^{-8r_1} \cdot r_1 - r_1 \cdot e^{-4 \cdot r_1} \right)\\
 \end{align}
@@ -92,10 +110,11 @@ I&= -\frac{1}{2} \pi^2 \cdot \left[ \frac{2 \cdot 2!}{8^{2+1}}+ \frac{1!}{8^{1+1
 &= -\frac{1}{2} \pi^2 \cdot \left[ \frac{12}{8 \cdot8 \cdot 8} - \frac{32}{8 \cdot 8 \cdot 8} \right]\\
 &= \pi^2 \cdot \left[ \frac{16}{8 \cdot 8 \cdot 8}- \frac{6}{8 \cdot 8 \cdot 8} \right]= \pi^2 \frac{10}{8 \cdot 8 \cdot 8}= \pi^2 \frac{5}{16^2}\approx 0.19277
 \end{align}
-We have now derived a analytical expression for the integral. The integral has the value:
+We have now derived an analytical expression for the integral. The integral has the value:
 \begin{align}
 I = \frac{5 \pi^2}{16^2}
 \end{align}
+
 \section{Theoretical background for numerical integration}
 
 \subsection{Gaussian quadrature}

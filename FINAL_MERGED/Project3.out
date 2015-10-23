@@ -1,10 +1,11 @@
 \BOOKMARK [1][-]{section.1}{Introduction to Project 3}{}% 1
-\BOOKMARK [1][-]{section.2}{Theory}{}% 2
-\BOOKMARK [2][-]{subsection.2.1}{Gauss-Legendre and Gauss-Laguerre quadrature}{section.2}% 3
-\BOOKMARK [2][-]{subsection.2.2}{Monte-Carlo-Method}{section.2}% 4
-\BOOKMARK [1][-]{section.3}{Execution}{}% 5
-\BOOKMARK [2][-]{subsection.3.1}{Gaussian quadrature}{section.3}% 6
-\BOOKMARK [2][-]{subsection.3.2}{Monte-Carlo integration}{section.3}% 7
-\BOOKMARK [2][-]{subsection.3.3}{Improving our code with parallelization and vectorisation}{section.3}% 8
-\BOOKMARK [1][-]{section.4}{Comparison and discussion of the results}{}% 9
-\BOOKMARK [1][-]{section.5}{Source code}{}% 10
+\BOOKMARK [2][-]{subsection.1.1}{Analytical derivation of the integral }{section.1}% 2
+\BOOKMARK [1][-]{section.2}{Theory}{}% 3
+\BOOKMARK [2][-]{subsection.2.1}{Gauss-Legendre and Gauss-Laguerre quadrature}{section.2}% 4
+\BOOKMARK [2][-]{subsection.2.2}{Monte-Carlo-Method}{section.2}% 5
+\BOOKMARK [1][-]{section.3}{Execution}{}% 6
+\BOOKMARK [2][-]{subsection.3.1}{Gaussian quadrature}{section.3}% 7
+\BOOKMARK [2][-]{subsection.3.2}{Monte-Carlo integration}{section.3}% 8
+\BOOKMARK [2][-]{subsection.3.3}{Improving our code with parallelization and vectorisation}{section.3}% 9
+\BOOKMARK [1][-]{section.4}{Comparison and discussion of the results}{}% 10
+\BOOKMARK [1][-]{section.5}{Source code}{}% 11
