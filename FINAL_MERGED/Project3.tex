@@ -310,13 +310,13 @@ f( r_{1,i}, r_{2,i}, \theta_{1,i}, \theta_{2,i}, \phi_{1,i}, \phi_{2,i}) = \frac
 \begin{tabular}{c|c|c|c}
 n & Integral & Standard deviation & Time in s \\
 \hline\hline
-$10^2$ & 0.06 & 0.04 & 0 \\
-$10^3$ & 0.2 & 0.2 & 0.001 \\
-$10^4$ & 0.10 & 0.03 & 0.006 \\
-$10^5$ & 0.16 & 0.02 & 0.062 \\
-$10^6$ & 0.178 & 0.008 & 0.667 \\
-$10^7$ & 0.189 & 0.003 & 6.645 \\
-$10^8$ & 0.1917 & 0.0009 & 70.881 
+$10^2$ & $0.0827$ & $0.0654$ & $0.001$\\
+$10^3$ & $0.157$ & $0.0755$ & $0.001$\\
+$10^4$ & $0.119$ & $0.0204$ & $0.007$\\
+$10^5$ & $0.1806$ & $0.0206$ & $0.063$\\
+$10^6$ & $0.1871$ & $0.0071$ & $0.671$\\
+$10^7$ & $0.1894$ & $0.0024$ & $6.264$\\
+$10^8$ & $0.1918$ & $0.0010$ & $63.026$\\
 \end{tabular}
 \end{table}
 
@@ -327,12 +327,13 @@ $10^8$ & 0.1917 & 0.0009 & 70.881
 \begin{tabular}{c|c|c|c}
 n & Integral & Standard deviation & Time in s \\
 \hline\hline
-$10^2$ & 0.22 & 0.08 & 0 \\
-$10^3$ & 0.17 & 0.02 & 0.002 \\
-$10^4$ & 0.186 & 0.009 & 0.021 \\
-$10^5$ & 0.196 & 0.003 & 0.21 \\
-$10^6$ & 0.193 & 0.001 & 2.07 \\
-$10^7$ & 0.1926 & 0.0003 &  19.49
+$10^2$ & $0.12$ & $0.04$ & $<0.001$\\
+$10^3$ & $0.23$ & $0.031$ & $0.002$\\
+$10^4$ & $0.183$ & $0.010$ & $0.019$\\
+$10^5$ & $0.199$ & $0.003$ & $0.185$\\
+$10^6$ & $0.193$ & $0.001$ & $1.857$\\
+$10^7$ & $0.1931$ & $0.0003$ & $18.538$\\
+$10^8$ & $0.1927$ & $0.0001$ & $196.014$\\
 \end{tabular}
 \end{table}
 
@@ -387,12 +388,13 @@ In part d, the optimization (parallel., vector.) leads to a decrease of Compilat
 \begin{tabular}{c|c|c|c}
 n & Integral & Standard deviation & Time in s \\
 \hline\hline
-$10^3$ & 0.14 & 0.08 & 0 \\
-$10^4$ & 0.22 & 0.05 & 0.004 \\
-$10^5$ & 0.18 & 0.01 & 0.02 \\
-$10^6$ & 0.187 & 0.009 & 0.181 \\
-$10^7$ & 0.196 & 0.003 & 1.859 \\
-$10^8$ & 0.192 & 0.001 & 18.79
+$10^2$ & $0.015$ & $0.053$ & $0.001$\\
+$10^3$ & $0.062$ & $0.017$ & $0.001$\\
+$10^4$ & $0.215$ & $0.091$ & $0.003$\\
+$10^5$ & $0.187$ & $0.023$ & $0.023$\\
+$10^6$ & $0.205$ & $0.010$ & $0.214$\\
+$10^7$ & $0.189$ & $0.003$ & $2.078$\\
+$10^8$ & $0.192$ & $0.001$ & $20.468$
 \end{tabular}
 \end{table}
 
@@ -403,13 +405,13 @@ $10^8$ & 0.192 & 0.001 & 18.79
 \begin{tabular}{c|c|c|c}
 n & Integral & Standard deviation & Time in s \\
 \hline\hline
-$10^2$ & 0.20 & 0.06 & 0\\
-$10^3$ & 0.19 & 0.03 & 0\\
-$10^4$ & 0.189 & 0.010 & 0 \\
-$10^5$ & 0.198 & 0.004 & 0.016 \\
-$10^6$ & 0.192 & 0.001 & 0.153 \\
-$10^7$ & 0.1919 & 0.0003 & 1.488 \\
-$10^8$ & 0.1917 & 0.0001 & 14.935 
+$10^2$ & $0.116$ & $0.028$ & $0.001$\\
+$10^3$ & $0.174$ & $0.020$ & $0.001$\\
+$10^4$ & $0.1980$ & $0.0093$ & $0.005$\\
+$10^5$ & $0.1875$ & $0.0029$ & $0.069$\\
+$10^6$ & $0.19162$ & $0.00098$ & $0.496$\\
+$10^7$ & $0.19148$ & $0.00032$ & $4.954$\\
+$10^8$ & $0.19145$ & $0.00010$ & $47.817$ 
 \end{tabular}
 \end{table}
 
@@ -418,7 +420,8 @@ $10^8$ & 0.1917 & 0.0001 & 14.935
 \section{Comparison and discussion of the results}
 
 All in all it can be said that Gauss-Legendre quadrature is not suitable at all for integrals of the type we dealt with, having infinite integration limits. The results we observed converge very slowly, respectively no convergence could be observed at all. However the Gauss-Laguerre quadrature fitted much better for the limits of our integral in spherical coordinates. Using this method we observed fast converging results. One drawback of all Gaussian quadrature methods is that the computation time increases by $n^d$, with d being the dimensions we integrate in total and n being the number of integration points. As a consequence Gaussian quadrature is the method of choice only in low dimensional integration problems.
-Monte Carlo integration is the method of choice when we want to calculate integrals in higher dimensions. The computation time for Monte Carlo integration is proportional to the number of integration points multiplied with the dimension of the integral. One advantage of the Monte Carlo integration is that it behaves like a real measurement with respect to statistics. Thus, properties like the standard deviation and variance (or even covariance) can be taken to describe the accuracy of the simulation. This is not the case for many other integration methods like Gaussian quadrature. If we compare the results of the Monte Carlo integration (MC) with and without importance sampling, we see that for a standard deviation of 0.003 we get a computation time of 6.645 for the brute force MC and 0.21 for the MC with importance sampling. The importance sampling decreases computation time for the same standard deviation a lot. For MC we used $6 \cdot 10^{8}$ as an upper limit for the amount of random numbers. This is less than the period of the random number generator we used ($10^{9}$). The standard deviation decreases with increasing numbers of integration points in both cases (brute force/importance sampling). This project has shown the usefulness of Monte Carlo methods- especially with importance sampling- for numerical integration of higher dimensional Integrals. 
+Monte Carlo integration is the method of choice when we want to calculate integrals in higher dimensions. The computation time for Monte Carlo integration is proportional to the number of integration points multiplied with the dimension of the integral. One advantage of the Monte Carlo integration is that it behaves like a real measurement with respect to statistics. Thus, properties like the standard deviation and variance (or even covariance) can be taken to describe the accuracy of the simulation. This is not the case for many other integration methods like Gaussian quadrature. If we compare the results of the Monte Carlo integration (MC) with and without importance sampling, we see that for a standard deviation of 0.003 we get a computation time of 6.645 for the brute force MC and 0.21 for the MC with importance sampling. The importance sampling decreases computation time for the same standard deviation a lot. For MC we used $6 \cdot 10^{8}$ as an upper limit for the amount of random numbers. This is less than the period of the random number generator we used ($10^{9}$). The standard deviation decreases with increasing numbers of integration points in both cases (brute force/importance sampling). This project has shown the usefulness of Monte Carlo methods- especially with importance sampling- for numerical integration of higher dimensional Integrals.
+Nevertheless, we can say that we got satisfying results with both Monte Carlo integration and Gaussian quadrature. If you compare the numerical values to the analytical solution of $\frac{5\pi^2}{256}=0.19277$, they fit in very well for both methods using the improved algorithms. Gaussian quadrature with Legendre polynomials is the only method that does not give us satisfying results, all the other values have a precision of three leading digits. This can be considered as a very satisfying result.
 
 % WE LOVE MONTE CARLO !!
 
